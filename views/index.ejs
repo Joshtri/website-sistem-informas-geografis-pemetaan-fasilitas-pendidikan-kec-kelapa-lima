@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistem Informasi Geografis - Kelurahan Kelapa Lima</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+    <link rel="stylesheet" href="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.css">
+    <style>
+        #map {
+            height: 400px;
+        }
+
+        .hero.is-primary {
+            background-color: #3273dc;
+            color: #fff;
+        }
+
+        .hero-body {
+            padding: 3rem 0;
+        }
+
+        .title,
+        .subtitle {
+            color: inherit;
+        }
+
+        .subtitle {
+            margin-top: 0.5rem;
+        }
+
+        .button.is-primary {
+            background-color: #3273dc;
+            border-color: #3273dc;
+        }
+
+        .button.is-primary:hover {
+            background-color: #276cda;
+            border-color: #276cda;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Header -->
+    <%-include('partials/header'); %>
+    <!-- Header -->
+
+    <!-- Hero -->
+    <section class="hero" style="background-color: #3a6dbe; color: #fff;">
+      <div class="hero-body">
+          <div class="container">
+              <h1 class="title animate__animated animate__fadeInDown">
+                  Selamat Datang di Sistem Informasi Geografis
+              </h1>
+              <h2 class="subtitle animate__animated animate__fadeInUp">
+                  Pemetaan Fasilitas Pendidikan di Kecamatan Kelapa Lima
+              </h2>
+              <button class="button is-primary is-large animate__animated animate__fadeIn"
+                  onclick="scrollToMap()">
+                  Lihat Peta Lokasi <ion-icon class="mx-1" name="map-outline"></ion-icon>
+              </button>
+          </div>
+      </div>
+  </section>
+  
+
+    <!-- About Section -->
+    <section id="about" class="section">
+        <div class="container">
+            <h2 class="title">Tentang Kami</h2>
+            <p>
+                Sistem Informasi Geografis (SIG) ini memberikan informasi mengenai lokasi dan informasi detail
+                tentang fasilitas pendidikan di kecamatan Kelapa Lima. Dengan menggunakan peta interaktif, pengguna dapat
+                dengan mudah menemukan lokasi fasilitas ibadah yang mereka butuhkan.
+            </p>
+        </div>
+    </section>
+
+    <!-- Map Section -->
+    <section id="map" class="section">
+        <div class="container">
+            <h2 class="title animate__animated animate__fadeIn">Peta Lokasi Fasilitas Ibadah</h2>
+            <div id="map"></div>
+        </div>
+    </section>
+
+<!-- Education Facilities Section -->
+<section id="facilities" class="section">
+    <div class="container">
+        <h2 class="title">Daftar Fasilitas Pendidikan</h2>
+        <div class="table-container">
+            <table class="table is-fullwidth">
+                <thead>
+                    <tr>
+                        <th>Jenis</th>
+                        <th>Nama</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td rowspan="3">Sekolah Dasar (SD)</td>
+                        <td>Nama SD 1</td>
+                    </tr>
+                    <tr>
+                        <td>Nama SD 2</td>
+                    </tr>
+                    <tr>
+                        <td>Nama SD 3</td>
+                    </tr>
+                    <tr>
+                        <td rowspan="3">Sekolah Menengah Pertama (SMP)</td>
+                        <td>Nama SMP 1</td>
+                    </tr>
+                    <tr>
+                        <td>Nama SMP 2</td>
+                    </tr>
+                    <tr>
+                        <td>Nama SMP 3</td>
+                    </tr>
+                    <tr>
+                        <td rowspan="3">Sekolah Menengah Atas (SMA)</td>
+                        <td>Nama SMA 1</td>
+                    </tr>
+                    <tr>
+                        <td>Nama SMA 2</td>
+                    </tr>
+                    <tr>
+                        <td>Nama SMA 3</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</section>
+
+        </div>
+    </div>
+</section>
+
+
+
+    
+
+    <%-include('partials/footer'); %>
+
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+    <script>
+        // Function to scroll to map section when button is clicked
+        function scrollToMap() {
+            document.getElementById('map').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        // Fetch locations data from backend
+        fetch('/locations')
+            .then(response => response.json())
+            .then(locations => {
+                const latLngs = locations.map(location => [location.lat, location.lng]);
+                const map = L.map('map').fitBounds(latLngs); // Initialize map and set view based on location data
+
+                // Add OpenStreetMap tile layer
+                L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+                }).addTo(map);
+
+                // Add markers to the map
+                locations.forEach(location => {
+                    L.marker([location.lat, location.lng]).addTo(map)
+                        .bindPopup(location.name); // Add popup with location name
+                });
+            })
+            .catch(error => {
+                console.error('Error fetching locations:', error);
+            });
+    </script>
+    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+</body>
+
+</html>
