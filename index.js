@@ -15,6 +15,7 @@ const PORT = process.env.PORT || 3000;
 // Middleware untuk menangani request body berformat JSON
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
+app.use(express.static(__dirname+ '/public'));
 
 app.use('/', mainRoute)
 // Menentukan path folder views

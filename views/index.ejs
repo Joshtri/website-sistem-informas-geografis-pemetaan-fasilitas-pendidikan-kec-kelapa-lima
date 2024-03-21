@@ -9,6 +9,7 @@
     <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
     <link rel="stylesheet" href="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <style>
         #map {
             height: 400px;
@@ -62,7 +63,7 @@
               </h2>
               <button class="button is-primary is-large animate__animated animate__fadeIn"
                   onclick="scrollToMap()">
-                  Lihat Peta Lokasi <ion-icon class="mx-1" name="map-outline"></ion-icon>
+                  Lihat Peta Lokasi <i class=" mx-2 fa-solid fa-location-dot fa-bounce"></i>
               </button>
           </div>
       </div>
@@ -89,60 +90,70 @@
         </div>
     </section>
 
-<!-- Education Facilities Section -->
-<section id="facilities" class="section">
-    <div class="container">
-        <h2 class="title">Daftar Fasilitas Pendidikan</h2>
-        <div class="table-container">
-            <table class="table is-fullwidth">
-                <thead>
-                    <tr>
-                        <th>Jenis</th>
-                        <th>Nama</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td rowspan="3">Sekolah Dasar (SD)</td>
-                        <td>Nama SD 1</td>
-                    </tr>
-                    <tr>
-                        <td>Nama SD 2</td>
-                    </tr>
-                    <tr>
-                        <td>Nama SD 3</td>
-                    </tr>
-                    <tr>
-                        <td rowspan="3">Sekolah Menengah Pertama (SMP)</td>
-                        <td>Nama SMP 1</td>
-                    </tr>
-                    <tr>
-                        <td>Nama SMP 2</td>
-                    </tr>
-                    <tr>
-                        <td>Nama SMP 3</td>
-                    </tr>
-                    <tr>
-                        <td rowspan="3">Sekolah Menengah Atas (SMA)</td>
-                        <td>Nama SMA 1</td>
-                    </tr>
-                    <tr>
-                        <td>Nama SMA 2</td>
-                    </tr>
-                    <tr>
-                        <td>Nama SMA 3</td>
-                    </tr>
-                </tbody>
-            </table>
+    <!-- Education Facilities Section -->
+    <section id="facilities" class="section">
+        <div class="container">
+            <h2 class="title">Daftar Fasilitas Pendidikan</h2>
+            <div class="table-container">
+                <table class="table is-fullwidth">
+                    <thead>
+                        <tr>
+                            <th>No.</th>
+                            <th>Nama Fasilitas</th>
+                            <!-- <th>Jenjang Pendidikan</th> -->
+                            <th>Aksi</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% locations.forEach((location, index) => { %>
+                            <tr>
+                                <td><%= (currentPage - 1) * limit + index + 1 %></td>
+                                <td class="is-capitalized"><%= location.name %></td>
+
+                                <td>
+                                    <a class="button is-primary is-small" href="https://www.google.com/maps?q=<%= location.lat %>,<%= location.lng %>" target="_blank">
+                                        Menuju Lokasi
+                                    </a>
+                                </td>
+
+                            </tr>
+                        <% }); %>
+                    </tbody>
+                </table>
+
+
+            </div>
+                <!-- Pagination -->
+                <nav class="pagination" role="navigation" aria-label="pagination">
+                    <a class="pagination-previous <% if (currentPage === 1) { %>is-disabled<% } %>"
+                        <% if (currentPage !== 1) { %>href="?page=<%= currentPage - 1 %>"<% } %>>Previous</a>
+                    <a class="pagination-next <% if (currentPage === totalPages) { %>is-disabled<% } %>"
+                        <% if (currentPage !== totalPages) { %>href="?page=<%= currentPage + 1 %>"<% } %>>Next page</a>
+                    <ul class="pagination-list">
+                        <% for (let i = 1; i <= totalPages; i++) { %>
+                            <li>
+                                <a class="pagination-link <% if (currentPage === i) { %>is-current<% } %>"
+                                    aria-label="Page <%= i %>" aria-current="<%= currentPage === i ? 'page' : '' %>"
+                                    href="?page=<%= i %>"><%= i %></a>
+                            </li>
+                        <% } %>
+                    </ul>
+                </nav>
+                <!-- End Pagination -->
+        </div>
+    </section>
+
+
+
         </div>
     </div>
 </section>
 
-        </div>
-    </div>
-</section>
-
-
+    <!-- Audio element -->
+    <audio id="backgroundAudio" autoplay loop>
+        <source src="coffee-vibes.mp3" type="audio/mpeg">
+        Your browser does not support the audio element.
+    </audio>
 
     
 
@@ -177,6 +188,17 @@
                 console.error('Error fetching locations:', error);
             });
     </script>
+
+
+    <script>
+        // Automatically play the audio when the page loads
+        window.addEventListener('load', () => {
+            const audio = document.getElementById('backgroundAudio');
+            audio.play();
+        });
+    </script>
+
+
     <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
     <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
 </body>

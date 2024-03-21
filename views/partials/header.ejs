@@ -2,27 +2,69 @@
     <div class="container">
         <div class="navbar-brand">
             <a class="navbar-item" href="#" style="color: #fff;">
+                <img src="coconut-tree.png" class="mx-1" alt="SIG Logo" style="max-height: 2.5rem;">
                 <strong>SIG - Kecamatan Kelapa Lima</strong>
             </a>
-            <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false"
+            <a role="button" class="navbar-burger burger" aria-label="menu" aria-expanded="false"
                 data-target="navbarBasicExample">
                 <span aria-hidden="true"></span>
                 <span aria-hidden="true"></span>
                 <span aria-hidden="true"></span>
             </a>
         </div>
-        <div id="navbarBasicExample" class="navbar-menu">
+        <div id="navbarBasicExample" class="navbar-menu" style="background-color: #3273dc;">
             <div class="navbar-end">
-                <a class="navbar-item" href="#about" style="color: #fff;">
+                <a class="navbar-item" style="color: #cfcaca;" href="#about">
                     Tentang Kami
                 </a>
-                <a class="navbar-item" href="#map" style="color: #fff;">
+                <a class="navbar-item" style="color: #cfcaca;" href="#map">
                     Peta Lokasi
                 </a>
-                <a class="navbar-item" href="#contact" style="color: #fff;">
-                    Hubungi Kami
+                <a class="navbar-item" style="color: #cfcaca;" href="#facilities">
+                    Daftar Fasilitas
                 </a>
             </div>
         </div>
     </div>
 </nav>
+
+<style>
+    /* Custom hover style for navbar menu */
+    .navbar-menu:hover {
+        background-color: #3273dc; /* Change to the desired background color */
+    }
+
+    /* Custom hover style for navbar items */
+    .navbar-item:hover {
+        background-color: #724e4e; /* Change to the desired background color */
+        color: #3273dc; /* Change to the desired text color */
+    }
+</style>
+
+
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        // Get all "navbar-burger" elements
+        var $navbarBurgers = Array.prototype.slice.call(document.querySelectorAll('.navbar-burger'), 0);
+
+        // Check if there are any navbar burgers
+        if ($navbarBurgers.length > 0) {
+
+            // Add a click event on each of them
+            $navbarBurgers.forEach(function ($el) {
+                $el.addEventListener('click', function () {
+
+                    // Get the target from the "data-target" attribute
+                    var target = $el.dataset.target;
+                    var $target = document.getElementById(target);
+
+                    // Toggle the "is-active" class on both the "navbar-burger" and the "navbar-menu"
+                    $el.classList.toggle('is-active');
+                    $target.classList.toggle('is-active');
+
+                });
+            });
+        }
+    });
+</script>
