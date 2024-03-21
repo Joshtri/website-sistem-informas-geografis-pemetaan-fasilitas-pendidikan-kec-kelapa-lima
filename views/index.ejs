@@ -45,7 +45,7 @@
     </style>
 </head>
 
-<body>
+<body class="animate__animated animate__fadeIn">
 
     <!-- Header -->
     <%-include('partials/header'); %>
@@ -54,7 +54,7 @@
     <!-- Hero -->
     <section class="hero" style="background-color: #3a6dbe; color: #fff;">
       <div class="hero-body">
-          <div class="container">
+          <div class="container p-2">
               <h1 class="title animate__animated animate__fadeInDown">
                   Selamat Datang di Sistem Informasi Geografis
               </h1>
@@ -77,10 +77,58 @@
             <p>
                 Sistem Informasi Geografis (SIG) ini memberikan informasi mengenai lokasi dan informasi detail
                 tentang fasilitas pendidikan di kecamatan Kelapa Lima. Dengan menggunakan peta interaktif, pengguna dapat
-                dengan mudah menemukan lokasi fasilitas ibadah yang mereka butuhkan.
+                dengan mudah menemukan lokasi fasilitas ibadah yang mereka butuhkan. Sistem ini dibuat oleh <span class="has-text-weight-bold">Yostry Lenggu</span>
+                <div>
+                    <button class="button is-primary is-small mt-3" id="openModalBtn">Tentang Saya</button>
+                </div>
             </p>
         </div>
     </section>
+
+    <style>
+        .modal {
+    z-index: 1000; /* Atur nilai z-index agar modal muncul di depan elemen lain */
+}
+
+    </style>
+
+<!-- Modal for Profile -->
+<div id="modal" class="modal">
+    <div class="modal-background"></div>
+    <div class="modal-card">
+        <header class="modal-card-head">
+            <p class="modal-card-title">Profil Pembuat Website</p>
+            <button class="delete modal-close is-large has-text-danger" aria-label="close"></button>
+        </header>
+        <section class="modal-card-body">
+            <!-- Konten modal -->
+            <div class="columns is-vcentered">
+                <div class="column is-one-quarter">
+                    <!-- Foto profil -->
+                    <figure class="image is-256x256">
+                        <img src="87437837853.jpg" alt="Foto Profil">
+                    </figure>
+                </div>
+                <div class="column">
+                    <!-- Informasi profil -->
+                    <p class="is-size-4">Yostry Lenggu</p>
+                    <p>Developer SIG Fasilitas Pendidikan Kec. Kelapa Lima</p>
+                    <!-- Tambahkan informasi lainnya sesuai kebutuhan -->
+                </div>
+            </div>
+            <!-- Social media icons -->
+            <hr>
+            <div class="social-media-icons mt-4 is-size-4">
+                <a href="https://twitter.com/yosry_lenggu" class="mx-3 text-decoration-none me-3" target="_blank"><i class="fa-brands fa-x-twitter"></i></a>
+                <a href="https://www.instagram.com/yosryy_lenggu/" class="text-decoration-none me-3" target="_blank"><i class="fab fa-instagram"></i></a>
+                <!-- Tambahkan tautan sosial media lainnya sesuai kebutuhan -->
+            </div>
+        </section>
+    </div>
+</div>
+
+    
+
 
     <!-- Map Section -->
     <section id="map" class="section">
@@ -197,6 +245,42 @@
             audio.play();
         });
     </script>
+
+<script>
+    // Dapatkan elemen-elemen yang diperlukan
+    const openModalBtn = document.getElementById('openModalBtn');
+    const modal = document.getElementById('modal');
+    const closeModalBtn = modal.querySelector('.modal-close');
+
+    // Fungsi untuk membuka modal
+    function openModal() {
+        modal.classList.add('is-active');
+    }
+
+    // Fungsi untuk menutup modal
+    function closeModal() {
+        modal.classList.remove('is-active');
+    }
+
+    // Event listener untuk membuka modal saat tombol diklik
+    openModalBtn.addEventListener('click', openModal);
+
+    // Event listener untuk menutup modal saat tombol close di-klik atau saat mengklik luar modal
+    closeModalBtn.addEventListener('click', closeModal);
+    modal.addEventListener('click', (e) => {
+        if (e.target === modal) {
+            closeModal();
+        }
+    });
+
+    // Jika ingin menutup modal menggunakan tombol escape pada keyboard
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && modal.classList.contains('is-active')) {
+            closeModal();
+        }
+    });
+
+</script>
 
 
     <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
